@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const stepsData = [
@@ -12,7 +12,7 @@ const stepsData = [
   { title: "Final Touch", desc: "Siap dalam 3-5 hari. Maksimum 1 kali sesi revisi kecil.", svgPath: "M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" },
 ];
 
-const wordReveal = {
+const wordReveal: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
@@ -132,9 +132,14 @@ WAN
       </nav>
 
       {/* 3. HERO SECTION */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 pt-10 md:pt-20 pb-20 grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-        
-        <motion.div initial="hidden" animate="visible">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 pt-10 md:pt-20 pb-20">
+  <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+    
+    <motion.div initial="hidden" animate="visible" className="relative">
+      
+      {/* HEADER AREA: Teks & Lottie (Mobile Only) */}
+      <div className="flex items-start justify-between md:block">
+        <div className="flex-1">
           <motion.span 
             variants={wordReveal} custom={1}
             className="inline-block mb-4 px-3 py-1 rounded-md text-[10px] sm:text-xs font-bold tracking-widest bg-violet-500/10 text-violet-400 border border-violet-500/20 uppercase"
@@ -147,86 +152,100 @@ WAN
             <motion.span variants={wordReveal} custom={3} className="text-slate-500 italic inline-block">Fast.</motion.span> <br /> 
             <motion.span variants={wordReveal} custom={4} className="inline-block">Build</motion.span> <span className="text-blue-500"><motion.span variants={wordReveal} custom={5} className="inline-block">Free.</motion.span></span>
           </h1>
-
-          {/* NEOBRUTALIST SLOT TRACKER */}
-          <motion.div 
-            whileHover={{ scale: 1.02, rotate: 0.5 }}
-            className="bg-yellow-400 text-black p-4 mb-10 border-[3px] sm:border-4 border-black shadow-[6px_6px_0px_#000] sm:shadow-[8px_8px_0px_#000] flex items-center gap-4 relative overflow-hidden max-w-sm sm:max-w-md"
-          >
-            <div className="absolute top-0 left-0 w-full bg-black py-0.5">
-              <motion.p 
-                animate={{ x: [-200, 200] }} transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-                className="text-[8px] text-yellow-400 font-bold uppercase whitespace-nowrap"
-              >
-                Hurry Up! Only 2 Slots Left • Book Now • Hurry Up! Only 2 Slots Left
-              </motion.p>
-            </div>
-
-            <div className="mt-2 flex items-center gap-4 w-full">
-              <div className="bg-black text-yellow-400 px-3 py-2 rounded-lg font-black text-xl sm:text-2xl">
-                 {bookedSlots}/5
-              </div>
-              <div className="flex-1">
-                <p className="text-[10px] sm:text-xs font-black uppercase leading-tight">Project Slot Status</p>
-                <div className="flex gap-1 mt-1">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <motion.div 
-                      key={s}
-                      animate={{ 
-                        opacity: s <= bookedSlots ? 1 : 0.2,
-                        backgroundColor: s <= bookedSlots ? "#000" : "#fff" 
-                      }}
-                      className="h-2.5 sm:h-3 flex-1 border-[1.5px] sm:border-2 border-black"
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.p variants={wordReveal} custom={6} className="text-base sm:text-lg text-slate-400 mb-10 max-w-sm sm:max-w-md leading-relaxed font-medium">
-            Saya sedang mencari 5 bisnes bertuah untuk saya binakan landing page profesional secara percuma untuk dijadikan konten TikTok.
-          </motion.p>
-          
-          <motion.button
-            variants={wordReveal} custom={7}
-            whileHover={{ scale: 1.02, y: -5 }} whileTap={{ scale: 0.98 }}
-            onClick={() => { setCurrentStep(0); setShowModal(true); }}
-            className="group w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-violet-600 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg hover:bg-violet-500 transition-all hover:shadow-[0_0_40px_rgba(124,58,237,0.4)] flex justify-center items-center gap-3"
-          >
-            Apply for Free Slot
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </motion.button>
-        </motion.div>
-
-        {/* 4. VISUAL SIDE */}
-        <div className="relative hidden md:block lg:pl-10">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="relative z-10 w-full aspect-square flex items-center justify-center"
-          >
-            <DotLottieReact
-              src="https://lottie.host/6ef615fb-aa2b-4c5e-89f1-7cbe61ca2af8/nOVoggWz25.lottie" 
-              loop
-              autoplay
-            />
-          </motion.div>
-          
-          <motion.div 
-            animate={{ y: [0, 15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -right-4 top-10 bg-white p-6 rounded-3xl shadow-2xl w-full max-w-[200px] z-20 text-black border border-slate-200"
-          >
-            <p className="font-bold text-xs mb-1 text-violet-600">⚡ Instant Deploy</p>
-            <p className="text-[10px] text-slate-500 leading-tight">Fastest workflow in the game.</p>
-          </motion.div>
-          
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-violet-600/20 blur-[120px] -z-10 animate-pulse"></div>
         </div>
-      </section>
+
+        {/* LOTTIE UNTUK MOBILE SAHAJA (Duduk sebelah Design Fast) */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-32 h-32 md:hidden relative -mt-4"
+        >
+          <DotLottieReact
+            src="https://lottie.host/6ef615fb-aa2b-4c5e-89f1-7cbe61ca2af8/nOVoggWz25.lottie" 
+            loop
+            autoplay
+          />
+          {/* Mini Floating Card untuk Mobile */}
+          <div className="absolute -bottom-2 -right-2 bg-white px-2 py-1 rounded-lg shadow-xl border border-slate-200 z-20">
+             <p className="text-[7px] font-black text-violet-600 leading-none">⚡ FAST</p>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* NEOBRUTALIST SLOT TRACKER */}
+      <motion.div 
+        whileHover={{ scale: 1.02, rotate: 0.5 }}
+        className="bg-yellow-400 text-black p-4 mb-10 border-[3px] sm:border-4 border-black shadow-[6px_6px_0px_#000] sm:shadow-[8px_8px_0px_#000] flex items-center gap-4 relative overflow-hidden max-w-sm sm:max-w-md"
+      >
+        <div className="absolute top-0 left-0 w-full bg-black py-0.5">
+          <motion.p 
+            animate={{ x: [-200, 200] }} transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+            className="text-[8px] text-yellow-400 font-bold uppercase whitespace-nowrap"
+          >
+            Hurry Up! Only 2 Slots Left • Book Now • Hurry Up! Only 2 Slots Left
+          </motion.p>
+        </div>
+
+        <div className="mt-2 flex items-center gap-4 w-full">
+          <div className="bg-black text-yellow-400 px-3 py-2 rounded-lg font-black text-xl sm:text-2xl">
+             {bookedSlots}/5
+          </div>
+          <div className="flex-1">
+            <p className="text-[10px] sm:text-xs font-black uppercase leading-tight">Project Slot Status</p>
+            <div className="flex gap-1 mt-1">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <div key={s} className={`h-2.5 sm:h-3 flex-1 border-[1.5px] sm:border-2 border-black ${s <= bookedSlots ? 'bg-black' : 'bg-white/50'}`} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.p variants={wordReveal} custom={6} className="text-base sm:text-lg text-slate-400 mb-10 max-w-sm sm:max-w-md leading-relaxed font-medium">
+        Saya sedang mencari 5 bisnes bertuah untuk saya binakan landing page profesional secara percuma untuk dijadikan konten TikTok.
+      </motion.p>
+      
+      <motion.button
+        variants={wordReveal} custom={7}
+        whileHover={{ scale: 1.02, y: -5 }} whileTap={{ scale: 0.98 }}
+        onClick={() => { setCurrentStep(0); setShowModal(true); }}
+        className="group w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-violet-600 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg hover:bg-violet-500 transition-all hover:shadow-[0_0_40px_rgba(124,58,237,0.4)] flex justify-center items-center gap-3"
+      >
+        Apply for Free Slot
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </motion.button>
+    </motion.div>
+
+    {/* VISUAL SIDE (Desktop Only - Tetap maintain layout asal) */}
+    <div className="relative hidden md:block lg:pl-10">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="relative z-10 w-full aspect-square flex items-center justify-center"
+      >
+        <DotLottieReact
+          src="https://lottie.host/6ef615fb-aa2b-4c5e-89f1-7cbe61ca2af8/nOVoggWz25.lottie" 
+          loop
+          autoplay
+        />
+      </motion.div>
+      
+      <motion.div 
+        animate={{ y: [0, 15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -right-4 top-10 bg-white p-6 rounded-3xl shadow-2xl w-full max-w-[200px] z-20 text-black border border-slate-200"
+      >
+        <p className="font-bold text-xs mb-1 text-violet-600">⚡ Instant Deploy</p>
+        <p className="text-[10px] text-slate-500 leading-tight">Fastest workflow in the game.</p>
+      </motion.div>
+      
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-violet-600/20 blur-[120px] -z-10 animate-pulse"></div>
+    </div>
+
+  </div>
+</section>
 
       {/* 5. LIVE PREVIEW SECTION */}
       <motion.section 
