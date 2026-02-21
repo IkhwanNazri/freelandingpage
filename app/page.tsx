@@ -142,12 +142,12 @@ WAN
         <div className="flex-1">
           <motion.span 
             variants={wordReveal} custom={1}
-            className="inline-block mb-4 px-3 py-1 rounded-md text-[10px] sm:text-xs font-bold tracking-widest bg-violet-500/10 text-violet-400 border border-violet-500/20 uppercase"
+            className="inline-block mb-4 px-3 py-1 rounded-md text-[10px] sm:text-xs font-regular font-jakarta tracking-widest bg-violet-500/10 text-violet-400 border border-violet-500/20 uppercase"
           >
             Limited Slots Available
           </motion.span>
           
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold tracking-tighter leading-[0.85] mb-8">
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tighter leading-[0.85] mb-8">
             <motion.span variants={wordReveal} custom={2} className="inline-block">Design</motion.span> <br /> 
             <motion.span variants={wordReveal} custom={3} className="text-slate-500 italic inline-block">Fast.</motion.span> <br /> 
             <motion.span variants={wordReveal} custom={4} className="inline-block">Build</motion.span> <span className="text-blue-500"><motion.span variants={wordReveal} custom={5} className="inline-block">Free.</motion.span></span>
@@ -180,9 +180,9 @@ WAN
         <div className="absolute top-0 left-0 w-full bg-black py-0.5">
           <motion.p 
             animate={{ x: [-200, 200] }} transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-            className="text-[8px] text-yellow-400 font-bold uppercase whitespace-nowrap"
+            className="text-[8px] text-yellow-400 font-regular uppercase whitespace-nowrap"
           >
-            Hurry Up! Only 2 Slots Left • Book Now • Hurry Up! Only 2 Slots Left
+            Join | Sekarang | Slot | Terhad!
           </motion.p>
         </div>
 
@@ -211,7 +211,7 @@ WAN
         onClick={() => { setCurrentStep(0); setShowModal(true); }}
         className="group w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-violet-600 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg hover:bg-violet-500 transition-all hover:shadow-[0_0_40px_rgba(124,58,237,0.4)] flex justify-center items-center gap-3"
       >
-        Apply for Free Slot
+       Book Sekarang
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform">
           <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
         </svg>

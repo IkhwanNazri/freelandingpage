@@ -1,33 +1,40 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
+
+/* 1. Font Import (Wajib letak paling atas sekali) */
+
+@theme {
+  /* 2. Declare warna & font dalam theme v4 style */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  
+  --z-100: 100;
+}
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --z-100: 100;
-}
-
-@utility bg-gradient-to-back {
-  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #050505; /* Kita gelapkan sikit ikut vibe landing page kau */
     --foreground: #ededed;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 3. Apply font tu secara global */
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-jakarta); /* Guna font Jakarta, bukan Arial */
+    @apply antialiased;
+  }
+}
+
+@utility bg-gradient-to-back {
+  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
