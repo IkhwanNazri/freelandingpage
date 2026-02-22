@@ -142,7 +142,7 @@ const [formData, setFormData] = useState({
                   Limited Slots Available
                 </motion.span>
                 <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tighter leading-[0.85] mb-8">
-                  <motion.span variants={wordReveal} custom={2} className="inline-block">Free 5</motion.span> <br /> 
+                  <motion.span variants={wordReveal} custom={2} className="inline-block">Free</motion.span> <br /> 
                   <motion.span variants={wordReveal} custom={3} className="text-slate-500 italic inline-block"> 5 Landing </motion.span> <br /> 
                   <motion.span variants={wordReveal} custom={4} className="inline-block">Page</motion.span> <span className="text-blue-500"><motion.span variants={wordReveal} custom={5} className="inline-block"> Website.</motion.span></span>
                 </h1>
