@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"; // Tambah useEffect kat sini
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { supabase } from '@//lib/supabase';
+import Link from "next/link";
 
 const stepsData = [
   { title: "Skop Projek", desc: "Landing page satu muka surat yang laju. Tiada fungsi database/e-commerce kompleks.", svgPath: "M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" },
@@ -27,7 +28,8 @@ export default function LandingPage() {
   const [showModal, setShowModal] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-const [showFinalForm, setShowFinalForm] = useState(false); // <--- TAMBAH INI
+const [showFinalForm, setShowFinalForm] = useState(false);
+const [selectedTemplate, setSelectedTemplate] = useState("template-1");
 const [formData, setFormData] = useState({ 
   nama: "", 
   whatsapp: "", 
@@ -123,7 +125,7 @@ const [formData, setFormData] = useState({
           </div>
         </motion.div>
         <div className="hidden md:flex gap-8 text-sm text-slate-400 font-medium">
-          <a href="#" className="hover:text-white transition">Showcase</a>
+          <Link href="/templates" className="hover:text-white transition">Templates</Link>
           <a href="#" className="hover:text-white transition">Process</a>
           <a href="#" className="hover:text-white transition">TikTok</a>
         </div>
@@ -209,18 +211,18 @@ const [formData, setFormData] = useState({
           <motion.div whileHover={{ y: -10 }} className="sm:col-span-2 h-[300px] sm:h-[400px] bg-slate-900/50 backdrop-blur-sm rounded-2xl p-8 sm:p-10 flex flex-col justify-between border border-white/5 hover:border-violet-500/50 transition-all cursor-pointer">
             <span className="text-3xl sm:text-4xl font-black italic opacity-20 text-violet-500">01</span>
             <div>
-              <h4 className="text-xl sm:text-2xl font-bold text-white">The Coffee Agency</h4>
-              <p className="text-slate-500 text-sm">Minimalist e-commerce interface.</p>
+              <h4 className="text-xl sm:text-2xl font-bold text-white">Waiting....</h4>
+              
             </div>
           </motion.div>
           <motion.div whileHover={{ y: -10 }} className="h-[300px] sm:h-[400px] bg-white text-black rounded-2xl p-8 sm:p-10 flex flex-col justify-between hover:bg-violet-600 hover:text-white transition-all cursor-pointer group">
             <span className="text-3xl sm:text-4xl font-black italic underline">LIVE</span>
-            <h4 className="text-lg sm:text-xl font-bold leading-tight">Vibes Tech Dashboard</h4>
+            <h4 className="text-lg sm:text-xl font-bold ">Waiting....</h4>
           </motion.div>
-          <motion.div whileHover={{ y: -10 }} className="h-[300px] sm:h-[400px] bg-slate-900/50 backdrop-blur-sm rounded-2xl p-8 sm:p-10 flex flex-col justify-between border border-white/5 cursor-wait text-white">
+          <Link href="/templates" className="h-[300px] sm:h-[400px] bg-slate-900/50 backdrop-blur-sm rounded-2xl p-8 sm:p-10 flex flex-col justify-between border border-white/5 hover:border-violet-500/50 transition-all cursor-pointer text-white">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/20 flex items-center justify-center">→</div>
-            <h4 className="text-lg sm:text-xl font-bold">Your Web <br/> Could Be Here</h4>
-          </motion.div>
+            <h4 className="text-lg sm:text-xl font-bold">Lihat Semua <br/> Template Percuma</h4>
+          </Link>
         </div>
       </motion.section>
 
@@ -281,79 +283,165 @@ const [formData, setFormData] = useState({
       />
       
       <motion.div 
-        initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-        className="relative w-full max-w-md bg-white rounded-3xl p-8 text-slate-900 shadow-2xl"
+        initial={{ scale: 0.95, opacity: 0 }} 
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="relative w-full max-w-5xl bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden text-slate-900 shadow-2xl flex flex-col md:flex-row"
       >
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold tracking-tight">Maklumat Bisnes</h2>
-          <p className="text-slate-500 text-sm">Sila isi detail untuk saya mula merangka landing page anda.</p>
-        </div>
-
-        <form onSubmit={handleWhatsAppSubmit} className="flex flex-col gap-4">
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Niche / Jenis Bisnes</label>
-            <select 
-              required
-              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all"
-              onChange={e => setFormData({...formData, niche: e.target.value})}
-            >
-              <option value="">Pilih Niche...</option>
-              <option value="F&B">Makanan & Minuman (F&B)</option>
-              <option value="Service">Servis (Cleaning/Repair/Etc)</option>
-              <option value="Fashion">Fashion & Beauty</option>
-              <option value="Real Estate">Hartanah / Ejen</option>
-              <option value="Other">Lain-lain</option>
-            </select>
+        {/* LEFT: FORM */}
+        <div className="w-full md:w-1/2 p-6 sm:p-10 order-2 md:order-1 overflow-y-auto max-h-[85vh] md:max-h-[90vh]">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold tracking-tight">Maklumat Bisnes</h2>
+            <p className="text-slate-500 text-sm">Sila isi detail untuk saya mula merangka landing page anda.</p>
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Cadangan URL Website</label>
-            <div className="relative flex items-center">
+          <form onSubmit={handleWhatsAppSubmit} className="flex flex-col gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Pilih Template</label>
+              <div className="grid grid-cols-2 gap-2">
+                <button 
+                  type="button"
+                  onClick={() => setSelectedTemplate("template-1")}
+                  className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-1' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
+                >
+                  Luxury: Veridian
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setSelectedTemplate("template-2")}
+                  className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-2' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
+                >
+                  F&B: Roast Lab
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setSelectedTemplate("template-3")}
+                  className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-3' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
+                >
+                  Auto: Maju Auto
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setSelectedTemplate("template-4")}
+                  className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-4' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
+                >
+                  Service: PureSpace
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setSelectedTemplate("template-5")}
+                  className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-5' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
+                >
+                  Digital: EduPro
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Niche / Jenis Bisnes</label>
+              <select 
+                required
+                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all"
+                value={formData.niche}
+                onChange={e => setFormData({...formData, niche: e.target.value})}
+              >
+                <option value="">Pilih Niche...</option>
+                <option value="F&B">Makanan & Minuman (F&B)</option>
+                <option value="Service">Servis (Cleaning/Repair/Etc)</option>
+                <option value="Fashion">Fashion & Beauty</option>
+                <option value="Real Estate">Hartanah / Ejen</option>
+                <option value="Other">Lain-lain</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Cadangan URL Website</label>
+              <div className="relative flex items-center">
+                <input 
+                  required 
+                  placeholder="nama-bisnes-anda" 
+                  className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all pr-[110px] lowercase"
+                  onChange={e => {
+                    const slug = e.target.value.toLowerCase().replace(/\s+/g, '-');
+                    setFormData({...formData, nama: slug});
+                  }} 
+                />
+                <span className="absolute right-4 text-slate-900 font-medium text-sm pointer-events-none">
+                  .vercel.app
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-400 italic">Contoh: {formData.nama || 'bisnes-anda'}.vercel.app</p>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">No. WhatsApp</label>
               <input 
                 required 
-                placeholder="nama-bisnes-anda" 
-                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all pr-[110px] lowercase"
-                onChange={e => {
-                  // Kita paksa jadi lowercase & ganti space dengan dash (-) supaya jadi URL yang valid
-                  const slug = e.target.value.toLowerCase().replace(/\s+/g, '-');
-                  setFormData({...formData, nama: slug});
-                }} 
+                type="tel"
+                placeholder="011XXXXXXXX" 
+                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all"
+                onChange={e => setFormData({...formData, whatsapp: e.target.value})} 
               />
-              <span className="absolute right-4 text-slate-900 font-medium text-sm pointer-events-none">
-                .vercel.app
-              </span>
             </div>
-            <p className="text-[10px] text-slate-400 italic">Contoh: {formData.nama || 'bisnes-anda'}.vercel.app</p>
-          </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">No. WhatsApp</label>
-            <input 
-              required 
-              type="tel"
-              placeholder="011XXXXXXXX" 
-              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all"
-              onChange={e => setFormData({...formData, whatsapp: e.target.value})} 
-            />
-          </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Penerangan Ringkas</label>
+              <textarea 
+                required 
+                placeholder="Apa yang unik pasal bisnes anda?" 
+                rows={3} 
+                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all resize-none"
+                onChange={e => setFormData({...formData, info: e.target.value})} 
+              />
+            </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Penerangan Ringkas</label>
-            <textarea 
-              required 
-              placeholder="Apa yang unik pasal bisnes anda?" 
-              rows={3} 
-              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all resize-none"
-              onChange={e => setFormData({...formData, info: e.target.value})} 
-            />
-          </div>
+            <button type="submit" className="w-full py-4 mt-2 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-700 active:scale-[0.98] transition-all shadow-lg shadow-violet-200">
+              Hantar Permohonan via WhatsApp
+            </button>
+            
+            <p className="text-[10px] text-center text-slate-400">Data anda akan dihantar terus ke WhatsApp Wan.</p>
+          </form>
+        </div>
 
-          <button type="submit" className="w-full py-4 mt-2 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-700 active:scale-[0.98] transition-all shadow-lg shadow-violet-200">
-            Hantar Permohonan via WhatsApp
-          </button>
+        {/* RIGHT: LIVE PREVIEW (IPHONE FRAME) */}
+        <div className="hidden md:flex w-1/2 bg-slate-50 items-center justify-center p-12 border-l border-slate-100 relative overflow-hidden order-2">
+          {/* Background Decorative */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-violet-600/10 blur-[100px] rounded-full" />
           
-          <p className="text-[10px] text-center text-slate-400">Data anda akan dihantar terus ke WhatsApp Wan.</p>
-        </form>
+          <div className="relative z-10 w-full max-w-[280px] aspect-[9/18.5] bg-slate-950 rounded-[3rem] p-3 shadow-2xl border-[8px] border-slate-900 group">
+             {/* Dynamic Island */}
+             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-b-2xl z-20" />
+             
+             {/* Content */}
+             <div className="w-full h-full rounded-[2.2rem] overflow-hidden bg-white relative">
+                <iframe 
+                  src={`/templates/${selectedTemplate}`} 
+                  className="w-full h-full border-none" 
+                  style={{ zoom: '0.6', width: '166.66%', height: '166.66%', transform: 'scale(0.6)', transformOrigin: 'top left' }}
+                />
+                <div className="absolute inset-0 bg-transparent" /> {/* Interaction blocker */}
+             </div>
+
+             {/* Indicator Label */}
+             <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Mobile Preview: {selectedTemplate}</p>
+             </div>
+          </div>
+        </div>
+
+        {/* Mobile Preview Toggle Button (Only on Mobile) */}
+        <div className="md:hidden p-4 bg-slate-50 border-t border-slate-100 flex justify-center order-3">
+          <button 
+            type="button"
+            onClick={() => window.open(`/templates/${selectedTemplate}`, '_blank')}
+            className="text-[10px] font-bold uppercase tracking-widest text-violet-600 flex items-center gap-2"
+          >
+            Lihat Preview Penuh
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+          </button>
+        </div>
       </motion.div>
     </div>
   )}

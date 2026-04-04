@@ -9,6 +9,9 @@
   --color-foreground: var(--foreground);
   
   --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-inter: var(--font-inter);
+  --font-opensans: var(--font-opensans);
+  --font-montserrat: var(--font-montserrat);
   
   --z-100: 100;
 }
