@@ -2,13 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-// Tambah import ni kat bahagian atas fail
-import localFont from 'next/font/local';
-
-const thailanddesa = localFont({
-  src: '../fonts/THAILAND.ttf', // Pastikan path ni betul ke fail font kau
-  variable: '--font-thailand',
-});
 
 export default function Page() {
   const [cart, setCart] = useState<{ id: number; name: string; price: number; quantity: number }[]>([]);
@@ -108,17 +101,15 @@ export default function Page() {
       </div>
 
       {/* 4. LANDING PAGE SECTIONS */}
-      <div className={`${thailanddesa.variable}  bg-white`}>
+      <div className="bg-white">
       {/* Kod Navbar Kau */}
       <nav className="h-24 flex items-center px-4  justify-between absolute top-0 w-full md:justify-center items-center ">
         <span 
           className="font-black text-4xl tracking-normal text-green-900" 
-          style={{ fontFamily: 'var(--font-thailand)' }}
         >
           Cookies Raya
         </span>
       </nav>
-      {/* ... rest of the code */}
     </div>
 
       <main>
@@ -214,7 +205,7 @@ export default function Page() {
           <div className="grid md:grid-cols-3 gap-8">
             {[1,2,3].map(i => (
               <div key={i} className="p-10 bg-white border border-slate-100 rounded-[40px] shadow-sm italic text-slate-600 text-sm leading-relaxed">
-                "Biskut paling sedap pernah saya beli online. Crunchy, tak manis sangat. Memang repeat order!"
+                &quot;Biskut paling sedap pernah saya beli online. Crunchy, tak manis sangat. Memang repeat order!&quot;
                 <div className="mt-6 font-black text-green-900 not-italic uppercase text-[10px]">— Customer #{i}</div>
               </div>
             ))}
