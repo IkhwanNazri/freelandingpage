@@ -42,7 +42,7 @@ const templates = [
     title: "EduPro Digital",
     desc: "Premium landing page for digital products, e-books, and online courses.",
     niche: "Education",
-    image: "/hero-1.png",
+    image: "/ebook.png",
     url: "/templates/template-5"
   },
   {
