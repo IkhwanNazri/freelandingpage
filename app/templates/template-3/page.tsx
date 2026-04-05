@@ -116,12 +116,12 @@ export default function Template3() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { name: "Proton X50", category: "SUV", price: "Bulanan dari RM 7xx", specs: "1.5L Turbo, 5-Star ASEAN NCAP", image: "/x50.jpg" },
-            { name: "Perodua Myvi", category: "Hatchback", price: "Bulanan dari RM 4xx", specs: "Advanced Safety Assist (ASA) 3.0", image: "/myvi.webp" },
-            { name: "Proton S70", category: "Sedan", price: "Bulanan dari RM 6xx", specs: "1.5L Turbo, Luxurious Interior", image: "/s70.png" },
-            { name: "Perodua Ativa", category: "SUV", price: "Bulanan dari RM 5xx", specs: "1.0L Turbo, New Global Architecture", image: "/ativa.png" },
-            { name: "Proton X70", category: "SUV", price: "Bulanan dari RM 9xx", specs: "Intelligent Real-Time AWD", image: "/x70.png" },
-            { name: "Perodua Alza", category: "MPV", price: "Bulanan dari RM 6xx", specs: "7-Seater, Electronic Parking Brake", image: "/alza.png" },
+            { name: "Proton X50", category: "SUV", price: "Bulanan dari RM 7xx", image: "/x50.jpg" },
+            { name: "Perodua Myvi", category: "Hatchback", price: "Bulanan dari RM 4xx", image: "/myvi.webp" },
+            { name: "Proton S70", category: "Sedan", price: "Bulanan dari RM 6xx", image: "/s70.webp" },
+            { name: "Perodua Ativa", category: "SUV", price: "Bulanan dari RM 5xx", image: "/ativa.webp" },
+            { name: "Proton X70", category: "SUV", price: "Bulanan dari RM 9xx", image: "/x70.webp" },
+            { name: "Perodua Alza", category: "MPV", price: "Bulanan dari RM 6xx", image: "/alza.webp" },
           ].map((car, i) => (
             <motion.div 
               key={i}
@@ -150,7 +150,7 @@ export default function Template3() {
                     <p className="text-slate-200 font-black text-[8px] uppercase tracking-widest text-center px-4">Sila letak file {car.image} di folder public</p>
                  </div>
               </div>
-              <p className="text-slate-400 text-xs mb-4 leading-relaxed font-medium">Spec: {car.specs}</p>
+             
               <div className="mt-auto pt-6 border-t border-slate-50 flex justify-between items-center">
                  <p className="font-black text-slate-900">{car.price}</p>
                  <button className="text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Details</button>

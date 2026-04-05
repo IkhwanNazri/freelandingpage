@@ -7,7 +7,7 @@ import { supabase } from '@//lib/supabase';
 import Link from "next/link";
 
 const stepsData = [
-  { title: "Skop Projek", desc: "Landing page satu muka surat yang laju. Tiada fungsi database/e-commerce kompleks.", svgPath: "M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" },
+  { title: "Skop Projek", desc: "Landing page satu page yang laju. Tiada fungsi database/e-commerce kompleks.", svgPath: "M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" },
   { title: "Hosting Percuma", desc: "Live di subdomain Vercel. Kos custom domain (.com) ditanggung anda.", svgPath: "M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" },
   { title: "Bahan & Aset", desc: "Sediakan logo, gambar, dan copywriting. Saya fokus pada coding & design.", svgPath: "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" },
   { title: "Konten Media", desc: "Proses pembuatan akan dirakam untuk konten TikTok/Portfolio saya.", svgPath: "M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" },
@@ -36,6 +36,7 @@ const [formData, setFormData] = useState({
   info: "", 
   niche: "" // Tambah niche sekali
   });
+
 
   useEffect(() => {
     const fetchInitialSlots = async () => {
@@ -71,20 +72,33 @@ const [formData, setFormData] = useState({
 
   const handleWhatsAppSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Simpan count lama incase nak rollback
+    const previousCount = bookedSlots;
+
+    // 1. Update UI secara instant (Optimistic)
+    if (bookedSlots < 5) {
+      setBookedSlots(prev => prev + 1);
+    }
+
+    // 2. Hantar ke Database
     const { error } = await supabase
       .from('slot')
       .update({ book_count: bookedSlots + 1 })
       .eq('id', 1);
 
-    if (!error) {
+    if (error) {
+      console.error("Database update failed:", error.message);
+      // Optional: Boleh rollback kalau nak tapi biasanya biarkan saja
+    }
+
     const mesej = `Salam Wan! Saya nak tuntut slot Free Landing Page.%0A%0A` +
                 `*Niche:* ${formData.niche}%0A` +
-                `*Cadangan URL:* ${formData.nama}.vercel.app%0A` + // <--- Dia akan keluar link penuh
+                `*Cadangan URL:* ${formData.nama}%0A` +
                 `*WhatsApp:* ${formData.whatsapp}%0A` +
                 `*Info:* ${formData.info}`;
   
-  window.open(`https://wa.me/60183249321?text=${mesej}`, "_blank");
-    }
+    window.open(`https://wa.me/60183249321?text=${mesej}`, "_blank");
   };
 
   return (
@@ -286,7 +300,7 @@ const [formData, setFormData] = useState({
         initial={{ scale: 0.95, opacity: 0 }} 
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
-        className="relative w-full max-w-5xl bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden text-slate-900 shadow-2xl flex flex-col md:flex-row"
+        className="relative w-full max-w-5xl bg-white rounded-2xl md:rounded-[3rem] overflow-hidden text-slate-900 shadow-2xl flex flex-col md:flex-row"
       >
         {/* LEFT: FORM */}
         <div className="w-full md:w-1/2 p-6 sm:p-10 order-2 md:order-1 overflow-y-auto max-h-[85vh] md:max-h-[90vh]">
@@ -304,35 +318,42 @@ const [formData, setFormData] = useState({
                   onClick={() => setSelectedTemplate("template-1")}
                   className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-1' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
                 >
-                  Luxury: Veridian
+                  Property
                 </button>
                 <button 
                   type="button"
                   onClick={() => setSelectedTemplate("template-2")}
                   className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-2' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
                 >
-                  F&B: Roast Lab
+                  F&B:
                 </button>
                 <button 
                   type="button"
                   onClick={() => setSelectedTemplate("template-3")}
                   className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-3' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
                 >
-                  Auto: Maju Auto
+                  Automotive
                 </button>
                 <button 
                   type="button"
                   onClick={() => setSelectedTemplate("template-4")}
                   className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-4' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
                 >
-                  Service: PureSpace
+                  Service
                 </button>
                 <button 
                   type="button"
                   onClick={() => setSelectedTemplate("template-5")}
                   className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-5' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
                 >
-                  Digital: EduPro
+                  Digital Product
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setSelectedTemplate("template-6")}
+                  className={`p-3 rounded-xl border text-[10px] font-bold transition-all ${selectedTemplate === 'template-6' ? 'border-violet-600 bg-violet-50 text-violet-600' : 'border-slate-200 hover:border-violet-300 font-medium'}`}
+                >
+                  Sale page
                 </button>
               </div>
             </div>
@@ -360,17 +381,14 @@ const [formData, setFormData] = useState({
                 <input 
                   required 
                   placeholder="nama-bisnes-anda" 
-                  className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all pr-[110px] lowercase"
+                  className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition-all lowercase"
                   onChange={e => {
                     const slug = e.target.value.toLowerCase().replace(/\s+/g, '-');
                     setFormData({...formData, nama: slug});
                   }} 
                 />
-                <span className="absolute right-4 text-slate-900 font-medium text-sm pointer-events-none">
-                  .vercel.app
-                </span>
               </div>
-              <p className="text-[10px] text-slate-400 italic">Contoh: {formData.nama || 'bisnes-anda'}.vercel.app</p>
+              <p className="text-[10px] text-slate-400 italic">Contoh: {formData.nama || 'bisnes-anda'}</p>
             </div>
 
             <div className="space-y-1.5">
@@ -424,23 +442,18 @@ const [formData, setFormData] = useState({
 
              {/* Indicator Label */}
              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Mobile Preview: {selectedTemplate}</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  Mobile Preview: {selectedTemplate}
+                </p>
              </div>
           </div>
         </div>
 
         {/* Mobile Preview Toggle Button (Only on Mobile) */}
         <div className="md:hidden p-4 bg-slate-50 border-t border-slate-100 flex justify-center order-3">
-          <button 
-            type="button"
-            onClick={() => window.open(`/templates/${selectedTemplate}`, '_blank')}
-            className="text-[10px] font-bold uppercase tracking-widest text-violet-600 flex items-center gap-2"
-          >
-            Lihat Preview Penuh
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-            </svg>
-          </button>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            Mobile Preview: {selectedTemplate}
+          </p>
         </div>
       </motion.div>
     </div>
