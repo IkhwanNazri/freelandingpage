@@ -69,37 +69,40 @@ const [formData, setFormData] = useState({
       supabase.removeChannel(channel);
     };
   }, []);
-
-  const handleWhatsAppSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Simpan count lama incase nak rollback
-    const previousCount = bookedSlots;
-
-    // 1. Update UI secara instant (Optimistic)
-    if (bookedSlots < 5) {
-      setBookedSlots(prev => prev + 1);
-    }
-
-    // 2. Hantar ke Database
+const handleWhatsAppSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  try {
+    // 1. Update Database dulu
+    // Kita guna .rpc atau update biasa. 
+    // Untuk lebih tepat, biarkan Supabase buat increment (tambah 1)
     const { error } = await supabase
       .from('slot')
       .update({ book_count: bookedSlots + 1 })
       .eq('id', 1);
 
-    if (error) {
-      console.error("Database update failed:", error.message);
-      // Optional: Boleh rollback kalau nak tapi biasanya biarkan saja
-    }
+    if (error) throw error;
 
-    const mesej = `Salam Wan! Saya nak tuntut slot Free Landing Page.%0A%0A` +
-                `*Niche:* ${formData.niche}%0A` +
-                `*Cadangan URL:* ${formData.nama}%0A` +
-                `*WhatsApp:* ${formData.whatsapp}%0A` +
-                `*Info:* ${formData.info}`;
-  
-    window.open(`https://wa.me/60183249321?text=${mesej}`, "_blank");
-  };
+    // 2. Susun mesej WhatsApp
+    const phone = "60104366505";
+    const mesej = `Salam Wan! Saya nak tuntut slot Free Landing Page.
+
+*Niche:* ${formData.niche}
+*Template:* ${selectedTemplate}
+*Cadangan URL:* ${formData.nama}
+*WhatsApp:* ${formData.whatsapp}
+*Info:* ${formData.info}`;
+
+    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(mesej)}`;
+    
+    // 3. Buka WhatsApp
+    window.open(waUrl, "_blank");
+
+  } catch (err) {
+    console.error("Gagal kemaskini slot:", err);
+    alert("Maaf, gagal tuntut slot. Sila cuba lagi.");
+  }
+};
 
   return (
     <main className="min-h-screen bg-[#050505] text-white selection:bg-violet-500/30 overflow-x-hidden font-jakarta relative">
