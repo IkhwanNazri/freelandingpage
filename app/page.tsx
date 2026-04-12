@@ -69,39 +69,38 @@ const [formData, setFormData] = useState({
       supabase.removeChannel(channel);
     };
   }, []);
-const handleWhatsAppSubmit = async (e: React.FormEvent) => {
+const handleWhatsAppSubmit = (e: React.FormEvent) => {
   e.preventDefault();
+
+  // 1. Bina URL WhatsApp siap-siap
+  const phone = "60104366505";
+  const mesej = `Salam Wan! Saya nak tuntut slot Free Landing Page.
   
-  try {
-    // 1. Update Database dulu
-    // Kita guna .rpc atau update biasa. 
-    // Untuk lebih tepat, biarkan Supabase buat increment (tambah 1)
-    const { error } = await supabase
-      .from('slot')
-      .update({ book_count: bookedSlots + 1 })
-      .eq('id', 1);
-
-    if (error) throw error;
-
-    // 2. Susun mesej WhatsApp
-    const phone = "60104366505";
-    const mesej = `Salam Wan! Saya nak tuntut slot Free Landing Page.
-
 *Niche:* ${formData.niche}
 *Template:* ${selectedTemplate}
 *Cadangan URL:* ${formData.nama}
 *WhatsApp:* ${formData.whatsapp}
 *Info:* ${formData.info}`;
 
-    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(mesej)}`;
-    
-    // 3. Buka WhatsApp
-    window.location.href(waUrl, "_blank");
+  const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(mesej)}`;
 
-  } catch (err) {
-    console.error("Gagal kemaskini slot:", err);
-    alert("Maaf, gagal tuntut slot. Sila cuba lagi.");
-  }
+  // 2. Update database secara "Silent"
+  // Kita tak pakai 'await' supaya dia tak block flow iPhone
+  supabase
+    .from('slot')
+    .update({ book_count: bookedSlots + 1 })
+    .eq('id', 1)
+    .then(({ error }) => {
+      if (error) {
+        console.error("Database Error:", error.message);
+      }
+    });
+
+  // 3. Terus hantar ke WhatsApp tanpa tunggu database siap
+  // Ini cara paling confirm jadi kat iPhone Safari
+  setTimeout(() => {
+    window.location.href = waUrl;
+  }, 100); 
 };
 
   return (
@@ -429,7 +428,7 @@ const handleWhatsAppSubmit = async (e: React.FormEvent) => {
           {/* Background Decorative */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-violet-600/10 blur-[100px] rounded-full" />
           
-          <div className="relative z-10 w-full max-w-[280px] aspect-[9/18.5] bg-slate-950 rounded-[3rem] p-3 shadow-2xl border-[8px] border-slate-900 group">
+          <div className="relative z-10 w-full max-w-[280px] aspect-9/18.5 bg-slate-950 rounded-[3rem] p-3 shadow-2xl border-8 border-slate-900 group">
              {/* Dynamic Island */}
              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-b-2xl z-20" />
              
