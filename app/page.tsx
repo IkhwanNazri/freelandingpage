@@ -96,7 +96,7 @@ const handleWhatsAppSubmit = async (e: React.FormEvent) => {
     const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(mesej)}`;
     
     // 3. Buka WhatsApp
-    window.open(waUrl, "_blank");
+    window.location.href(waUrl, "_blank");
 
   } catch (err) {
     console.error("Gagal kemaskini slot:", err);
