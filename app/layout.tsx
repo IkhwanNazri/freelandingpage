@@ -3,6 +3,7 @@
 import { Inter } from 'next/font/google'; // Import font yang anda nak
 import { Open_Sans, Montserrat } from 'next/font/google'; // Import font yang anda nak
 import './globals.css';
+import type { Metadata } from "next";
 
 // const syne = DM_Sans({ 
 //   subsets: ['latin'],
@@ -35,3 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+export const metadata: Metadata = {
+  title: "Build With Wan", 
+ 
+};

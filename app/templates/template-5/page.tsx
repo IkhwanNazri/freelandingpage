@@ -79,7 +79,7 @@ export default function Template5() {
                initial={{ opacity: 0, y: 40 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 1, ease: "circOut" }}
-               className="aspect-[4/5] bg-white rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[1px] border-slate-100 relative overflow-hidden group"
+               className="aspect-4/5 bg-white rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border border-slate-100 relative overflow-hidden group"
              >
                 <div className="absolute inset-0 bg-linear-to-br from-indigo-50 to-white flex flex-col items-center justify-center p-12">
                    <div className="w-32 h-44 bg-white rounded-lg shadow-2xl mb-8 flex items-center justify-center border border-slate-100">
@@ -144,7 +144,7 @@ export default function Template5() {
                     { fasa: "Fasa 03: Marketing Machine", title: "Tarik Pelanggan Secara Automatik", desc: "Setting FB Ads, TikTok Ads & Email Marketing yang convert." },
                     { fasa: "Fasa 04: Scaling & Growth", title: "Mencapai Pendapatan 5-Angka", desc: "Cara duplicate kejayaan dan bina team kecil untuk urus bisnes anda." }
                   ].map((item, i) => (
-                    <div key={i} className="p-8 md:p-12 bg-white rounded-[2rem] border border-slate-100 hover:shadow-2xl hover:shadow-indigo-100 transition-all group">
+                    <div key={i} className="p-8 md:p-12 bg-white rounded-4xl border border-slate-100 hover:shadow-2xl hover:shadow-indigo-100 transition-all group">
                        <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600 mb-4">{item.fasa}</p>
                        <h4 className="text-2xl font-black mb-4 group-hover:text-indigo-600 transition-colors">{item.title}</h4>
                        <p className="text-slate-500 font-medium leading-relaxed">{item.desc}</p>

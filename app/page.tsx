@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react"; // Tambah useEffect kat sini
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { supabase } from '@//lib/supabase';
+import { supabase } from '@/lib/supabase';
 import Link from "next/link";
+import Image from "next/image";
 
 const stepsData = [
   { title: "Skop Projek", desc: "Landing page satu page yang laju. Tiada fungsi database/e-commerce kompleks.", svgPath: "M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" },
@@ -211,7 +212,7 @@ const handleWhatsAppSubmit = (e: React.FormEvent) => {
             <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.5 }} className="relative z-10 w-full aspect-square flex items-center justify-center">
               <DotLottieReact src="https://lottie.host/6ef615fb-aa2b-4c5e-89f1-7cbe61ca2af8/nOVoggWz25.lottie" loop autoplay />
             </motion.div>
-            <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-4 top-10 bg-white p-6 rounded-3xl shadow-2xl w-full max-w-[200px] z-20 text-black border border-slate-200">
+            <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-4 top-10 bg-white p-6 rounded-3xl shadow-2xl w-full max-w-50 z-20 text-black border border-slate-200">
               <p className="font-bold text-xs mb-1 text-violet-600">Build With Wan</p>
               
             </motion.div>
@@ -224,18 +225,37 @@ const handleWhatsAppSubmit = (e: React.FormEvent) => {
       <motion.section initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="max-w-7xl mx-auto px-6 pb-20 md:pb-40 relative z-10 text-white">
         <p className="text-[10px] sm:text-xs font-black uppercase mb-8 tracking-[0.3em] text-slate-600 italic">Projek Telah Dibuat</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <motion.div whileHover={{ y: -10 }} className="sm:col-span-2 h-[300px] sm:h-[400px] bg-slate-900/50 backdrop-blur-sm rounded-2xl p-8 sm:p-10 flex flex-col justify-between border border-white/5 hover:border-violet-500/50 transition-all cursor-pointer">
-            <span className="text-3xl sm:text-4xl font-black italic opacity-20 text-violet-500">01</span>
-            <div>
-              <h4 className="text-xl sm:text-2xl font-bold text-white">Waiting....</h4>
-              
-            </div>
-          </motion.div>
-          <motion.div whileHover={{ y: -10 }} className="h-[300px] sm:h-[400px] bg-white text-black rounded-2xl p-8 sm:p-10 flex flex-col justify-between hover:bg-violet-600 hover:text-white transition-all cursor-pointer group">
+          <motion.div 
+        whileHover={{ y: -10 }} 
+        className="relative sm:col-span-2 h-75 sm:h-100 bg-slate-900/50 backdrop-blur-sm rounded-2xl p-8 sm:p-10 flex flex-col justify-between border border-white/5 hover:border-violet-500/50 transition-all cursor-pointer overflow-hidden"
+      >
+        {/* Link ni akan cover satu box tanpa kacau layout flex */}
+        <a 
+          href="https://chess-forkids.vercel.app/" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="absolute inset-0 z-20"
+        />
+
+        <Image 
+          src="/project 1.png" 
+          alt="project1" 
+          fill 
+          className="object-cover rounded-2xl z-0" 
+          priority 
+        />
+
+        <span className="relative z-10 text-3xl sm:text-4xl font-black italic opacity-20 text-black">01</span>
+        
+        <div className="relative z-10">
+          <h4 className="text-xl sm:text-2xl font-bold text-gray-400">Project In Progress ....</h4>
+        </div>
+      </motion.div>
+          <motion.div whileHover={{ y: -10 }} className="h-75 sm:h-100 bg-white text-black rounded-2xl p-8 sm:p-10 flex flex-col justify-between hover:bg-violet-600 hover:text-white transition-all cursor-pointer group">
             <span className="text-3xl sm:text-4xl font-black italic underline">LIVE</span>
-            <h4 className="text-lg sm:text-xl font-bold ">Waiting....</h4>
+            <h4 className="text-lg sm:text-xl font-bold ">Project 1</h4>
           </motion.div>
-          <Link href="/templates" className="h-[300px] sm:h-[400px] bg-slate-900/50 backdrop-blur-sm rounded-2xl p-8 sm:p-10 flex flex-col justify-between border border-white/5 hover:border-violet-500/50 transition-all cursor-pointer text-white">
+          <Link href="/templates" className="h-75 sm:h-100 bg-slate-900/50 backdrop-blur-sm rounded-2xl p-8 sm:p-10 flex flex-col justify-between border border-white/5 hover:border-violet-500/50 transition-all cursor-pointer text-white">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/20 flex items-center justify-center">→</div>
             <h4 className="text-lg sm:text-xl font-bold">Lihat Semua <br/> Template Percuma</h4>
           </Link>
@@ -255,7 +275,7 @@ const handleWhatsAppSubmit = (e: React.FormEvent) => {
                   ))}
                 </div>
                 <AnimatePresence mode="wait">
-                  <motion.div key={currentStep} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="min-h-[220px] sm:min-h-[250px]">
+                  <motion.div key={currentStep} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="min-h-55 sm:min-h-62.5">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-black mb-6 border border-slate-100">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 sm:w-7 sm:h-7">
                         <path strokeLinecap="round" strokeLinejoin="round" d={stepsData[currentStep].svgPath} />
@@ -428,7 +448,7 @@ const handleWhatsAppSubmit = (e: React.FormEvent) => {
           {/* Background Decorative */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-violet-600/10 blur-[100px] rounded-full" />
           
-          <div className="relative z-10 w-full max-w-[280px] aspect-9/18.5 bg-slate-950 rounded-[3rem] p-3 shadow-2xl border-8 border-slate-900 group">
+          <div className="relative z-10 w-full max-w-70 aspect-9/18.5 bg-slate-950 rounded-[3rem] p-3 shadow-2xl border-8 border-slate-900 group">
              {/* Dynamic Island */}
              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-b-2xl z-20" />
              
